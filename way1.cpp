@@ -10,7 +10,7 @@
 std::string in_file_name="./106000103/matrix.data";
 std::string out_file_name="./106000103/final.peak";
 
-int cordinate[MAX_MATRIXSIZE*MAX_MATRIXSIZE];
+int coordinate[MAX_MATRIXSIZE*MAX_MATRIXSIZE];
 
 int main(void){
     ///start clock.
@@ -38,11 +38,11 @@ int main(void){
         }
         for(int i=1;i<=col;i++){//examine row 1
             if((i>=col||first_row[i]>=first_row[i+1])&&(i<=1||first_row[i]>=first_row[i-1])){
-                cordinate[sum]=i+1;
+                coordinate[sum]=i+1;
                 sum++;
             }
         }
-        stop_pt[1]=sum;
+        //stop_pt[1]=sum;
     }
     //row == 2
     else if(row == 2){
@@ -53,7 +53,7 @@ int main(void){
             int comp;
             in_file>>comp;
             if((first_row[i]>=comp)&&(i>=col||first_row[i]>=first_row[i+1])&&(i<=1||first_row[i]>=first_row[i-1])){
-                cordinate[sum]=i+1;//adjust
+                coordinate[sum]=1+i;//adjust
                 sum++;
             }
             second_row[i]=comp;
@@ -61,7 +61,7 @@ int main(void){
         stop_pt[1]=sum;
         for(int i=1;i<=col;i++){
             if((second_row[i]>=first_row[i])&&(i>=col||second_row[i]>=second_row[i+1])&&(i<=1||second_row[i]>=second_row[i-1])){
-                cordinate[sum]=i+2;//adjust
+                coordinate[sum]=2+i;//adjust
                 sum++;
             }
         }
@@ -75,7 +75,7 @@ int main(void){
             int comp;
             in_file>>comp;
             if((first_row[i]>=comp)&&(i>=col||first_row[i]>=first_row[i+1])&&(i<=1||first_row[i]>=first_row[i-1])){
-                cordinate[sum]=i+1;//adjust
+                coordinate[sum]=1+i;//adjust
                 sum++;
             }
             second_row[i]=comp;
@@ -87,7 +87,7 @@ int main(void){
                 int comp;
                 in_file>>comp;
                 if((second_row[j]>=comp)&&(second_row[j]>=first_row[j])&&(j>=col||second_row[j]>=second_row[j+1])&&(j<=1||second_row[j]>=second_row[j-1])){
-                    cordinate[sum]=i+j;
+                    coordinate[sum]=i+j;
                     sum++;
                 }
                 third_row[j]=comp;
@@ -100,7 +100,7 @@ int main(void){
         }
         for(int i=1;i<=col;i++){
             if((second_row[i]>=first_row[i])&&(i>=col||second_row[i]>=second_row[i+1])&&(i<=1||second_row[i]>=second_row[i-1])){
-                cordinate[sum]=col+i;
+                coordinate[sum]=row+i;
                 sum++;
             }
         }
@@ -110,9 +110,9 @@ int main(void){
     out_file<<sum<<"\n";
     stop_pt[0]=0;
     stop_pt[row]=sum;
-    for(int i=1;i<=row;i++){
+    for(int i=1;i<=row;i++){//std::cout<<stop_pt[i-1]<<" "<<stop_pt[i]<<"\n";
         for(int j=stop_pt[i-1];j<stop_pt[i];j++){
-            out_file<<i<<" "<<cordinate[j]-i<<"\n";
+            out_file<<i<<" "<<coordinate[j]-i<<"\n";
         }
     }
     QueryPerformanceCounter(&t2);
