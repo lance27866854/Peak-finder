@@ -7,12 +7,9 @@
 
 #define MAX_MATRIXSIZE 1000
 
-std::string in_file_name="./106000103/matrix.data";
-std::string out_file_name="./106000103/final.peak";
+int coordinate[MAX_MATRIXSIZE*MAX_MATRIXSIZE+1];
 
-int coordinate[MAX_MATRIXSIZE*MAX_MATRIXSIZE];
-
-int main(void){
+int main(int argc, char *argv[]){
     ///start clock.
     LARGE_INTEGER t1, t2, ts;
     QueryPerformanceFrequency(&ts);
@@ -21,14 +18,20 @@ int main(void){
     ///file settings.
     std::ifstream in_file;
     std::ofstream out_file;
-    in_file.open(in_file_name,std::ios::in);
-    out_file.open(out_file_name,std::ios::out);
+
+    char buffer[30];
+    sprintf(buffer, "./%s/matrix.data", argv[1]);
+    in_file.open(buffer,std::ios::in);
+    sprintf(buffer, "./%s/final.peak", argv[1]);
+    out_file.open(buffer,std::ios::out);
+
+    if(!in_file||!out_file){std:: cout<<"FAIL"; return 1;}
 
     ///get inputs.
     int first[MAX_MATRIXSIZE+1], second[MAX_MATRIXSIZE+1], third[MAX_MATRIXSIZE+1];
     int *first_row = first, *second_row = second, *third_row = third;
     int sum=0;
-    int stop_pt[MAX_MATRIXSIZE];
+    int stop_pt[MAX_MATRIXSIZE+1];
     int row, col;
     in_file>>row>>col;
     //row == 1
