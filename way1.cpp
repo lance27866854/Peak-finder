@@ -1,20 +1,11 @@
 #include <iostream>
 #include <fstream>
-#include <string>
-#include <time.h>
-#include <windows.h>
 #include <stdio.h>
-
 #define MAX_MATRIXSIZE 1000
 
 int coordinate[MAX_MATRIXSIZE*MAX_MATRIXSIZE+1];
 
 int main(int argc, char *argv[]){
-    ///start clock.
-    LARGE_INTEGER t1, t2, ts;
-    QueryPerformanceFrequency(&ts);
-    QueryPerformanceCounter(&t1);
-
     ///file settings.
     std::ifstream in_file;
     std::ofstream out_file;
@@ -24,8 +15,7 @@ int main(int argc, char *argv[]){
     in_file.open(buffer,std::ios::in);
     sprintf(buffer, "./%s/final.peak", argv[1]);
     out_file.open(buffer,std::ios::out);
-
-    if(!in_file||!out_file){std:: cout<<"FAIL"; return 1;}
+    //if(!in_file||!out_file){std:: cout<<"FAIL"; return 1;}
 
     ///get inputs.
     int first[MAX_MATRIXSIZE+1], second[MAX_MATRIXSIZE+1], third[MAX_MATRIXSIZE+1];
@@ -34,6 +24,7 @@ int main(int argc, char *argv[]){
     int stop_pt[MAX_MATRIXSIZE+1];
     int row, col;
     in_file>>row>>col;
+
     //row == 1
     if(row == 1){
         for(int i=1;i<=col;i++){
@@ -47,6 +38,7 @@ int main(int argc, char *argv[]){
         }
         //stop_pt[1]=sum;
     }
+    
     //row == 2
     else if(row == 2){
         for(int i=1;i<=col;i++){
@@ -69,6 +61,7 @@ int main(int argc, char *argv[]){
             }
         }
     }
+    
     //row >= 3
     else if(row >= 3){
         for(int i=1;i<=col;i++){
@@ -113,12 +106,10 @@ int main(int argc, char *argv[]){
     out_file<<sum<<"\n";
     stop_pt[0]=0;
     stop_pt[row]=sum;
-    for(int i=1;i<=row;i++){//std::cout<<stop_pt[i-1]<<" "<<stop_pt[i]<<"\n";
+    for(int i=1;i<=row;i++){
         for(int j=stop_pt[i-1];j<stop_pt[i];j++){
             out_file<<i<<" "<<coordinate[j]-i<<"\n";
         }
     }
-    QueryPerformanceCounter(&t2);
-    std::cout<<"Execution Time : "<<(t2.QuadPart-t1.QuadPart)/(double)(ts.QuadPart)<<" s."<<"\n";
     return 0;
 }
